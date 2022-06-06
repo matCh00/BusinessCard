@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { ShowContext } from "../Context/ShowContext";
 import "./Contact.css";
 
@@ -17,12 +17,8 @@ const Contact = () => {
   const [action, setAction] = useState(null);
   const [result, setResult] = useState(null);
 
-  const handleRandom = () => {
 
-    setNum1(Math.floor(Math.random() * 11));
-    setNum2(Math.floor(Math.random() * 11));
-    setAction(Math.floor(Math.random() * 3));
-
+  useEffect(() => {
     // 0 +    1 -    2 *    3 /
     if (num1 !== null && num2 != null && action !== null) {
       switch (action) {
@@ -46,6 +42,13 @@ const Contact = () => {
           break;
       }
     }
+  }, [num1])
+
+  const handleRandom = () => {
+
+    setNum1(Math.floor(Math.random() * 11));
+    setNum2(Math.floor(Math.random() * 11));
+    setAction(Math.floor(Math.random() * 3));
   }
 
   const handleSubmit = () => {
@@ -58,11 +61,11 @@ const Contact = () => {
         if (phoneRef.current.value.match(/\d/g) !== null) {
 
           if (phoneRef.current.value.match(/\d/g).length === 9) {
-            
+
               console.log("input res: " + resultRef.current.value);
               console.log("res: " + result);
 
-            if (result === resultRef.current.value) {
+            if (result == resultRef.current.value) {
               console.log("sent message: ", messageRef.current.value);
               document.getElementById("contact-name").value = "";
               document.getElementById("contact-surname").value = "";
@@ -153,21 +156,23 @@ const Contact = () => {
         Random question
       </button>
 
-
-      {num1}  
-      {action === 0 &&
-        <>+</>
-      }  
-      {action === 1 &&
-        <>-</>
-      } 
-      {action === 2 &&
-        <>*</>
-      } 
-      {action === 3 &&
-        <>/</>
-      } 
-      {num2}
+      <div className="contact-res">
+        {num1}  
+        {action === 0 &&
+          <>+</>
+        }  
+        {action === 1 &&
+          <>-</>
+        } 
+        {action === 2 &&
+          <>*</>
+        } 
+        {action === 3 &&
+          <>/</>
+        } 
+        {num2}
+      </div>
+      
 
       <input
         id="contact-result"
